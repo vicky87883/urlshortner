@@ -48,6 +48,17 @@
         .shortened-url {
             margin-top: 20px;
             text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .copy-icon {
+            cursor: pointer;
+            color: #007bff;
+            font-size: 18px;
+            border: none;
+            background: none;
         }
     </style>
 </head>
@@ -61,11 +72,22 @@
         </form>
         <div class="shortened-url">
             {% if shortened_url %}
-                <p>Shortened URL: 
-                    <a href="/{{ shortened_url }}">{{ request.get_host }}/{{ shortened_url }}</a>
-                </p>
+                <p id="shortUrl">{{ request.get_host }}/{{ shortened_url }}</p>
+                <button class="copy-icon" onclick="copyToClipboard()">&#x2398;</button>
             {% endif %}
         </div>
     </div>
+    <script>
+        function copyToClipboard() {
+            const shortUrlText = document.getElementById('shortUrl').innerText;
+            const textarea = document.createElement('textarea');
+            textarea.value = shortUrlText;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            alert('Shortened URL copied to clipboard!');
+        }
+    </script>
 </body>
 </html>
